@@ -1,0 +1,78 @@
+td, th{
+    text-align:center;
+    vertical-align:middle;
+    font-size: 200%;
+}
+
+table {
+    border-collapse: collapse;
+}
+
+table, th {
+    border: 4px solid black;
+}
+
+.demo {
+  width:100%;
+  background-color:#d9d9d9;
+  position:fixed;
+  margin-left:0px; /* half of width */
+  margin-top:0px;  /* half of height */
+  top:0%;
+  left:0%;
+}
+
+.board {
+    padding:  15px;
+    display: auto;
+    background: rgb(30, 30, 30);
+    background: -webkit-gradient(linear, center top, center bottom,
+      color-stop(0.0, rgba(0,0,0, 1)),
+      color-stop(0.05, rgba(30,30,30, 1)),
+      color-stop(1.0, rgba(50, 50, 60, 1)));
+    background: -moz-linear-gradient(270deg,
+      rgba(0,0,0,1) 0%,
+      rgba(30, 30, 30, 1) 5%,
+      rgba(50, 50, 60, 1) 100%);
+    /* border radius */
+    -webkit-border-radius: 3px;
+    -moz-border-radius: 3px;
+    -khtml-border-radius: 3px;
+    border-radius: 3px;
+
+    font-weight: normal;
+    text-transform: uppercase;
+    color: white;
+    /* box shadow */
+    -webkit-box-shadow:
+      inset 0 -1px 0 rgba(50,50,50,0.7),
+      inset 0 -2px 0 rgba(0,0,0,0.7),
+      inset 2px 0px 4px rgba(0,0,0,0.9),
+      inset -2px 0px 4px rgba(0,0,0,0.9),
+      0 1px 0px rgba(255,255,255,0.2);
+    -moz-box-shadow:
+      inset 0 -1px 0 rgba(50,50,50,0.7),
+      inset 0 -2px 0 rgba(0,0,0,0.7),
+      inset 2px 0px 4px rgba(0,0,0,0.9),
+      inset -2px 0px 4px rgba(0,0,0,0.9),
+      0 1px 0px rgba(255,255,255,0.2);
+    box-shadow:
+      inset 0 -1px 0 rgba(50,50,50,0.7),
+      inset 0 -2px 0 rgba(0,0,0,0.7),
+      inset 2px 0px 4px rgba(0,0,0,0.9),
+      inset -2px 0px 4px rgba(0,0,0,0.9),
+      0 1px 0px rgba(255,255,255,0.2);
+}
+.board:before {
+    /* approximation for old browsers */
+    border-top: 3px solid rgb(30, 30, 30);
+    border-top: 3px solid rgba(0,0,0,0.4);
+    border-bottom: 3px solid rgba(255,255,255,0.08);
+    height: 0px;
+    width: 100%;
+    position: relative;
+    left: 0px;
+    top: 22px;
+    content: " ";
+    display: block;
+}
