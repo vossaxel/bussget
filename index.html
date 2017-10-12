@@ -1,22 +1,12 @@
 <!DOCTYPE html>
 <html>
-<style>
-table,th,td {
-  border : 1px solid black;
-  border-collapse: collapse;
-}
-th,td {
-  padding: 5px;
-}
-</style>
+<head>
+  <link href="css/style.css" rel="stylesheet">
+</head>
 <body>
-
-<button type="button" onclick="loadXMLDoc()">Update</button>
-
-<br><br>
-<table id="demo"></table>
-
+<table id="demo" class="demo"></table>
 <script>
+loadXMLDoc();
 function loadXMLDoc() {
   var xmlhttp = new XMLHttpRequest();
   xmlhttp.onreadystatechange = function() {
@@ -28,40 +18,56 @@ function loadXMLDoc() {
   xmlhttp.send();
 }
 function parseXML(xml) {
-  var i;
+  var i, name, towards, lineType, timediff, newTime, orginTime, orginTimeString, newTimeSting;
   var xmlDoc = xml.responseXML;
-  var table="<tr><th>Linje</th><th>Mot</th><th>Test</th><th>Tid</th><th>Typ</th></tr>";
+  var table="<tr><th>Linje</th><th>Mot</th><th>Tid</th><th>Ny tid</th><th>Typ</th></tr>";
   var x = xmlDoc.getElementsByTagName("Line");
   for (i = 0; i < x.length; i++) {
-    if (x[i].getElementsByTagName("RealTime")[0].childNodes.length == 0) {
-      table += "<tr><td>" +
-      x[i].getElementsByTagName("Name")[0].childNodes[0].nodeValue +
-      "</td><td>" +
-      x[i].getElementsByTagName("Towards")[0].childNodes[0].nodeValue +
-      "</td><td>" +
-      "0" +
-      "</td><td>" +
-      x[i].getElementsByTagName("JourneyDateTime")[0].childNodes[0].nodeValue +
-      "</td><td>" +
-      x[i].getElementsByTagName("LineTypeName")[0].childNodes[0].nodeValue +
-      "</td></tr>";
+    name = x[i].getElementsByTagName("Name")[0].childNodes[0].nodeValue;
+    towards = x[i].getElementsByTagName("Towards")[0].childNodes[0].nodeValue;
+    orginTime = new Date(x[i].getElementsByTagName("JourneyDateTime")[0].childNodes[0].nodeValue);
+    lineType = x[i].getElementsByTagName("LineTypeName")[0].childNodes[0].nodeValue;
+    orginTimeString = fixTime(orginTime);
+    if (x[i].getElementsByTagName("RealTime")[0].childNodes.length != 0) {
+    timediff =  x[i].getElementsByTagName("RealTime")[0].getElementsByTagName("RealTimeInfo")[0].getElementsByTagName("DepTimeDeviation")[0].childNodes[0].nodeValue;
+    newTime = addMinutes(orginTime, timediff);
+    newTimeSting = fixTime(newTime);
     }else {
-      table += "<tr><td>" +
-      x[i].getElementsByTagName("Name")[0].childNodes[0].nodeValue +
-      "</td><td>" +
-      x[i].getElementsByTagName("Towards")[0].childNodes[0].nodeValue +
-      "</td><td>" +
-      x[i].getElementsByTagName("RealTime")[0].getElementsByTagName("RealTimeInfo")[0].getElementsByTagName("DepTimeDeviation")[0].childNodes[0].nodeValue +
-      "</td><td>" +
-      x[i].getElementsByTagName("JourneyDateTime")[0].childNodes[0].nodeValue +
-      "</td><td>" +
-      x[i].getElementsByTagName("LineTypeName")[0].childNodes[0].nodeValue +
-      "</td></tr>";
-
+    newTimeSting = "--:--"
     }
+    table += "<tr><td>" +
+    "<div class=\"board\" title=\" \">" + name + "</div>" +
+    "</td><td>" +
+    "<div class=\"board\" title=\" \">" + towards + "</div>" +
+    "</td><td>" +
+    "<div class=\"board\" title=\" \">" + orginTimeString + "</div>" +
+    "</td><td>" +
+    "<div class=\"board\" title=\" \">" + newTimeSting + "</div>" +
+    "</td><td>" +
+    "<div class=\"board\" title=\" \">" + lineType + "</div>" +
+    "</td></tr>";
+
   }
   document.getElementById("demo").innerHTML = table;
 }
+function addMinutes(date, minutes) {
+    return new Date(date.getTime() + minutes*60000);
+}
+function fixTime(date){
+  var tempString;
+  if (date.getHours() < 10) {
+    tempString = "0" + date.getHours();
+  }else{
+    tempString = date.getHours();
+  }
+  if (date.getMinutes() < 10) {
+    tempString += ":" + "0"+ date.getMinutes();
+  } else {
+    tempString += ":" + date.getMinutes();
+  }
+  return tempString;
+}
+
 window.setInterval(loadXMLDoc,10000);
 </script>
 
